@@ -80,6 +80,7 @@ int main( int argc, char* args[] )
 
 		SDL_Event e;
 		
+
 		// 1d
 		//float xoff = 0;
 		//for (int y = 0; y < SCREEN_HEIGHT; y++)
@@ -95,21 +96,22 @@ int main( int argc, char* args[] )
 		//}
 
 		// 2d
-		//float xoff = 0;
-		//float yoff = 0;
-		//for (int x = 0; x < SCREEN_WIDTH; x++)
-		//{
-		//	xoff = 0;
-		//	for (int y = 0; y < SCREEN_HEIGHT; y++)
-		//	{
-		//		float noise = (SimplexNoise::noise(xoff, yoff) + 1) / 2 * 255;
-		//		SDL_Rect fillRect =  {x, y, 1, 1 };
-		//		SDL_SetRenderDrawColor( gRenderer, noise, noise, noise, 255);		
-		//		SDL_RenderFillRect( gRenderer, &fillRect );
-		//		xoff += 0.001;
-		//	}
-		//	yoff += 0.001;
-		//}
+		Perlin p;
+		float xoff = 0;
+		float yoff = 0;
+		for (int x = 0; x < SCREEN_WIDTH; x++)
+		{
+			xoff = 0;
+			for (int y = 0; y < SCREEN_HEIGHT; y++)
+			{
+				float noise = (p.noise(xoff, yoff) + 1) / 2 * 255;
+				SDL_Rect fillRect =  {x, y, 1, 1 };
+				SDL_SetRenderDrawColor( gRenderer, noise, noise, noise, 255);		
+				SDL_RenderFillRect( gRenderer, &fillRect );
+				xoff += 0.001;
+			}
+			yoff += 0.001;
+		}
 
 		SDL_RenderPresent( gRenderer );
 		float t = 0;
@@ -124,17 +126,18 @@ int main( int argc, char* args[] )
 			}
 
 			//Clear screen
-			SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+			//SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
 
-			float noise = (SimplexNoise::noise(t) + 1)/2 * SCREEN_HEIGHT;
-			printf("%f\n", noise);
-			SDL_Rect fillRect = {t * 30, noise, 1, 1 };
-			SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );		
-			SDL_RenderFillRect( gRenderer, &fillRect );
+			//Perlin p;
+			//float noise = (p.noise(t, t) + 1) / 2 * SCREEN_HEIGHT;
+			//printf("%f\n", noise);
+			//SDL_Rect fillRect = {t * 30, noise, 1, 1 };
+			//SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );		
+			//SDL_RenderFillRect( gRenderer, &fillRect );
 
-			t += 0.01f;
+			//t += 0.01f;
 
-			SDL_RenderPresent( gRenderer );
+			//SDL_RenderPresent( gRenderer );
 		}
 	}
 

@@ -9,50 +9,20 @@
 
 class Perlin
 {
+public:
     static const int p[];
 
-    float noise(float x, float y) const
-    {
-        int X = static_cast<int>(floor(x)) & 255;
-        int Y = static_cast<int>(floor(y)) & 255;
-        float xd0 = x - floor(x);
-        float yd0 = y - floor(y);
-        float xd1 = xd0 - 1;
-        float yd1 = yd0 - 1;
-
-        float u = fade(xd0);
-        float v = fade(yd0);
-        // then calculate dot prod: dist vector . const vector
-        // *** 
-        // *** 
-        // *** 
-
-        // dist vec
-        // (xd0, yd0) (xd1, yd0) (xd0, yd1) (xd1, yd1)
-
-        // const vec
-        // (p[X], p[Y]) (p[X + 1], p[Y]) (p[X], p[Y + 1]) (p[X + 1], p[Y + 1])
-        int tr = p[p[X + 1] + Y + 1];
-        int tl = p[p[X] + Y + 1];
-        int br = p[p[X + 1] + Y];
-        int bl = p[p[X] + Y];
-
-        // get oconst 
-
-        grad(tr, xd0, yd0);
-        grad(br, xd0, yd0);
-
-
-        // then apply fade function 
-
-        // then lerp
-
-    }
+	float noise(float x, float y) const;
 
     static float fade(float t)
     {
         //return 6*t*t*t*t*t - 15*t*t*t*t + 10 * t*t*t;
         return t * t * t * (10 + (t * (-15 + 6 * t)));
+    }
+
+    template<typename T>
+    static constexpr auto lerp(T a, T b, T t) -> T {
+        return a + t * (b - a);
     }
 
     static float grad(int hash, float x, float y)
@@ -87,3 +57,40 @@ const int Perlin::p[] = {151,160,137,91,90,15,
 	49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
 	138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
+
+float Perlin::noise(float x, float y) const{
+	int X = static_cast<int>(floor(x)) & 255;
+	int Y = static_cast<int>(floor(y)) & 255;
+	float xd0 = x - floor(x);
+	float yd0 = y - floor(y);
+	float xd1 = xd0 - 1;
+	float yd1 = yd0 - 1;
+
+	float u = fade(xd0);
+	float v = fade(yd0);
+	// then calculate dot prod: dist vector . const vector
+	// *** 
+	// *** 
+	// *** 
+
+	// dist vec
+	// (xd0, yd0) (xd1, yd0) (xd0, yd1) (xd1, yd1)
+
+	// const vec
+	// (p[X], p[Y]) (p[X + 1], p[Y]) (p[X], p[Y + 1]) (p[X + 1], p[Y + 1])
+	int tr = p[p[X + 1] + Y + 1];
+	int tl = p[p[X] + Y + 1];
+
+	int br = p[p[X + 1] + Y];
+	int bl = p[p[X] + Y];
+
+	// get oconst 
+
+	float tmp1 = lerp(grad(br, xd1, yd0), grad(bl, xd0, yd0), u);
+	float tmp2 = lerp(grad(tr, xd1, yd1), grad(tl, xd0, yd1), u);
+
+	return lerp(tmp1, tmp2, v);
+	// then apply fade function 
+
+	// then lerp
+}
