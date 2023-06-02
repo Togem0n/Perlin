@@ -1,0 +1,6 @@
+﻿  Source.cpp
+C:\Users\kaiwan\source\repos\PerlinTest\PerlinTest\Source.cpp(131,27): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\kaiwan\source\repos\PerlinTest\PerlinTest\Source.cpp(131,27): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\kaiwan\source\repos\PerlinTest\PerlinTest\Source.cpp(131,33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\kaiwan\source\repos\PerlinTest\PerlinTest\Source.cpp(131,33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  PerlinTest.vcxproj -> C:\Users\kaiwan\source\repos\PerlinTest\x64\Debug\PerlinTest.exe
